@@ -107,3 +107,40 @@ def install_hmmer():
             print('hmmer installation failure\n')
         
     return None
+
+
+def install_hhsuite():
+    
+    try:
+        
+        hhsuite_cmd = sp.run(['hhblits', '-h'], check=True, stdout=sp.PIPE, stderr=sp.PIPE)
+        hhsuite_version = hhsuite_cmd.stdout.decode().split('\n')[0][:-1]
+        
+        print(f'hh-suite had been installed: {hhsuite_version}')
+        
+    except:
+        print('start to clone hh-suite')
+        sp.run(['git', 'clone', 'https://github.com/soedinglab/hh-suite.git'])
+        print('clone hh-suite complete')
+        
+        print('start to compile and install')
+        sp.run(['mkdir', '-p', f'{PATH}/hh-suite/build'])
+        
+        os.chdir(f'{PATH}/hh-suite/build/')
+        
+        sp.run(['cmake', '-DCMAKE_INSTALL_PREFIX=/usr/local/', '..'])
+        
+        sp.run(['make', '-j', '4'])
+        
+        sp.run(['sudo', 'make', 'install'])
+        print('hh-suite installation complete ')
+        
+        try:
+            sp.run(['hhblits', '-h'], check=True, stdout=sp.PIPE)
+            print('hh-suite installation succeeds\n')
+        except:
+            print('hh-suite installation failure\n')
+        
+        os.chdir(PATH)
+ 
+    return None
