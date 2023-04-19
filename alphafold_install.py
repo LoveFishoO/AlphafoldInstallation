@@ -1,12 +1,13 @@
 import os
 import re
+import sys
 import requests
 
 import subprocess as sp
 
 from lxml import etree
 
-
+PYTHON = sys.executable
 PATH = os.path.dirname(__file__)
 
 
@@ -184,3 +185,54 @@ def install_kalign():
         
     return None
 
+def install_openmm():
+    
+    try:
+        # sudo apt install doxygen, swig
+        openmm_cmd = sp.run([PYTHON, '-m', 'openmm.testInstallation'], check=True, stdout=sp.PIPE)
+        openmm_version = openmm_cmd.stdout.decode().split('\n')[1]
+
+        print(f'kalign had been installed: {openmm_version}')
+    
+    except:
+        
+        sp.run(['wget', '-O', f'{PATH}/openmm.tar.gz', '-c','https://github.com/openmm/openmm/archive/refs/tags/8.0.0.tar.gz'])
+
+        # unzip
+        print('start to unzip openmm')
+        sp.run(['tar', '-zxvf', f'{PATH}/openmm.tar.gz'], stdout=sp.PIPE)
+        print('decompression complete')
+
+        # install dependency
+        apt_install('doxygen')
+        apt_install('swig')
+        
+        # compile and install
+        dirname = list_find(os.listdir(PATH), 'openmm-')
+
+        print('start to compile and install')
+        
+        sp.run(['mkdir', '-p', f'{PATH}/{dirname}/build'])
+        os.chdir(f'{PATH}/{dirname}/build')
+        sp.run(['cmake', '..'])
+        sp.run(['make'])
+        sp.run(['sudo', 'make', 'install'])
+        
+        sp.run(['sudo', PYTHON, '-m', 'pip', 'install', 'numpy', 'cython'])
+        sp.run(['sudo', 'make', 'PythonInstall'])
+        
+        try:
+            sp.run([PYTHON, '-m', 'openmm.testInstallation'], check=True, stdout=sp.PIPE)
+            print('openmm installation succeeds\n')
+        except:
+            print('openmm installation failure\n')
+
+        os.chdir(PATH)
+        
+    return None
+
+def apt_install(packname):
+
+    sp.run(['sudo', 'apt', 'install', packname])
+    
+    return None
