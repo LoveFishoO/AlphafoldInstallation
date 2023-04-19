@@ -236,3 +236,11 @@ def apt_install(packname):
     sp.run(['sudo', 'apt', 'install', packname])
     
     return None
+
+def install_pdbfixer():
+    
+    print('start to install pdbfixer')
+    sp.run(['sudo', PYTHON, '-m', 'pip', 'install','git+http://github.com/openmm/pdbfixer.git'])
+
+    print('pdbfixer installation complete')  
+    return None
