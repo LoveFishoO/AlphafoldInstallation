@@ -244,3 +244,14 @@ def install_pdbfixer():
 
     print('pdbfixer installation complete')  
     return None
+
+
+def install_software():
+    
+    install_lists = [install_make, install_hmmer, install_hhsuite, install_kalign, install_openmm, install_pdbfixer]
+    
+    for func in install_lists:
+        
+        func()
+        
+    return None
