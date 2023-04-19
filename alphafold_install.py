@@ -83,3 +83,27 @@ def get_make_url():
 
     return url, filename
 
+
+def install_hmmer():
+    try:
+        hmmer_cmd =  sp.run('jackhmmer -h', shell=True, check=True, stdout=sp.PIPE)
+
+        hmmer_version = hmmer_cmd.stdout.decode().split('\n')[1]
+
+        print(f'hmmer had been installed: {hmmer_version}')
+    
+    except:
+        
+        # install hmmer
+        print('start to install hmmer')
+        sp.run(['sudo','apt', 'install', 'hmmer'])
+        print('installation completed')
+
+        # check 
+        try:
+            sp.run(['jackhmmer', '-h'], check=True, stdout=sp.PIPE)
+            print('hmmer installation succeeds\n')
+        except:
+            print('hmmer installation failure\n')
+        
+    return None
