@@ -144,3 +144,43 @@ def install_hhsuite():
         os.chdir(PATH)
  
     return None
+
+
+def install_kalign():
+    
+    try:
+        
+        kalign_cmd = sp.run(['kalign', '-h'], check=True, stdout=sp.PIPE, stderr=sp.PIPE)
+        kalign_version = kalign_cmd.stdout.decode().split('\n')[1]
+
+        print(f'kalign had been installed: {kalign_version}')
+    
+    except:
+        
+        sp.run(['wget', '-O', f'{PATH}/kalign.tar.gz', '-c', 'https://github.com/TimoLassmann/kalign/archive/refs/tags/v3.3.5.tar.gz'])
+        
+        # unzip
+        print('start to unzip kalign')
+        sp.run(['tar', '-zxvf', f'{PATH}/kalign.tar.gz'], stdout=sp.PIPE)
+        print('decompression complete')
+
+        # compile and install
+        dirname = list_find(os.listdir(PATH), 'kalign-')
+        
+        print('start to compile and install')
+        sp.run(['mkdir', '-p', f'{PATH}/{dirname}/build'])
+        os.chdir(f'{PATH}/{dirname}/build')
+        sp.run(['cmake', '..'])
+        sp.run(['make'])
+        sp.run(['sudo', 'make', 'install'])
+        
+        try:
+            sp.run(['kalign', '-h'], check=True, stdout=sp.PIPE)
+            print('kalign installation succeeds\n')
+        except:
+            print('kalign installation failure\n')
+        
+        os.chdir(PATH)
+        
+    return None
+
