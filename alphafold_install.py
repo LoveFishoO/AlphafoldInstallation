@@ -255,3 +255,17 @@ def install_software():
         func()
         
     return None
+
+def main():
+    
+    functions = [install_software]
+    
+    for func in functions:
+        
+        func()
+    
+    return None
+
+if __name__ == '__main__':
+    
+    main()
