@@ -10,7 +10,15 @@ However, alphafold relies not only on a lot of bioinformatics software, but also
 - [ ] Part of the alphafold code is automatically modified to match the last version of OpenMM
 
 ## Start
+
+### Install
 ```
+wget https://github.com/LoveFishoO/AlphafoldInstallation/archive/refs/tags/<version>.tar.gz
+tar -zxvf ./AlphafoldInstallation-<version>
+```
+### Usage
+```
+cd ./AlphafoldInstallation-<version>
 python alphafold_install.py
 ```
 
