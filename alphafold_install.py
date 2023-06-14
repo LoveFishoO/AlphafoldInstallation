@@ -280,13 +280,13 @@ def install_packages():
     if cuda_version == CUDA12:
         
         print(f'start to install JAX, CUDA version is {CUDA12}')
-        sp.run([PYTHON, '-m', 'pip', 'install', '--user', '"jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html'])
+        sp.run(f'{PYTHON} -m pip install --user "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html', shell=True)
         print(f'JAX installation complete')
     
     elif cuda_version == CUDA11:
         
         print(f'start to install JAX, CUDA version is {CUDA11}')
-        sp.run([PYTHON, '-m', 'pip', 'install', '--user','"jax[cuda11_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html'])
+        sp.run(f'{PYTHON} -m pip install --user "jax[cuda11_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html', shell=True)
         print(f'JAX installation complete')
         
     else:
