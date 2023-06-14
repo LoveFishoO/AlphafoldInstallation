@@ -33,3 +33,7 @@ Feel free to dive in! Open an issue or submit PRs.
 
 ### Contributors
 [@LoveFish](https://github.com/LoveFishoO)
+
+## Backers
+Thank you to all my backers! 🙏<br><br>
+<img src="https://raw.githubusercontent.com/LoveFishoO/AlphafoldInstallation/main/imgs/Tina.jpg" width="50" height="50" alt="Tina Hu" title="Tina Hu"/><br/> <b>Tina Hu</b>
