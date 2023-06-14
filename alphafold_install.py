@@ -298,7 +298,7 @@ def install_packages():
 
 def main():
     
-    functions = [install_software]
+    functions = [install_software, install_packages]
     
     for func in functions:
         
