@@ -37,26 +37,7 @@ def install_make():
         
     except:
         
-        # crawl url
-        url, makefilename = get_make_url()
-        print(f'cmake download url: {url}')
-        
-        # download cmake file
-        print('start to download cmake')
-        sp.run(['wget', '-q', '-O', f'{PATH}/cmake.tar.gz', '-c', url], stdout=sp.PIPE)
-        print('cmake complete download')
-        
-        # unzip
-        print('start to unzip cmake')
-        sp.run(['tar', '-zxvf', f'{PATH}/cmake.tar.gz'], stdout=sp.PIPE)
-        print('decompression complete')
-        
-        # compile and install
-        dirname = list_find(os.listdir(PATH), 'cmake-')
-        os.chdir(f'{PATH}/{dirname}')
-        sp.run(['./bootstrap'])
-        sp.run(['make'])
-        sp.run(['make install'])
+        apt_install(packname='cmake')
         
         # check 
         try:
