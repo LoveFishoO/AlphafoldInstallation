@@ -237,6 +237,20 @@ def install_software():
         
     return None
 
+def get_cuda_version():
+    nvidia_cmd = sp.run(
+        ['nvidia-smi', '-q', '-d', 'compute'], check=True, stdout=sp.PIPE)
+    cuda_version_infos = nvidia_cmd.stdout.decode().split('\n')[5]
+    cuda_version = cuda_version_infos.split()[-1]
+
+    if cuda_version == '12.0':
+        return '12.0'
+    elif cuda_version == '11.0':
+        return '11.0'
+    else:
+        raise ValueError(f'This cuda version({cuda_version}) is not supported')
+
+
 def main():
     
     functions = [install_software]
