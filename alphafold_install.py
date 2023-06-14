@@ -9,7 +9,8 @@ from lxml import etree
 
 PYTHON = sys.executable
 PATH = os.path.dirname(__file__)
-
+CUDA12 = '12.0'
+CUDA11 = '11.0'
 
 def get_linux_bit():
     linux_bit_cmd = sp.Popen(['getconf', 'LONG_BIT'], stdout=sp.PIPE)
@@ -243,12 +244,56 @@ def get_cuda_version():
     cuda_version_infos = nvidia_cmd.stdout.decode().split('\n')[5]
     cuda_version = cuda_version_infos.split()[-1]
 
-    if cuda_version == '12.0':
-        return '12.0'
-    elif cuda_version == '11.0':
-        return '11.0'
+    if cuda_version == CUDA12:
+        return CUDA12
+    elif cuda_version == CUDA11:
+        return CUDA11
     else:
         raise ValueError(f'This cuda version({cuda_version}) is not supported')
+
+
+def install_packages():
+    
+    print('start to install python packages')
+    
+    print('start to upgrade pip')
+    sp.run([PYTHON, '-m', 'pip', 'install', '--user', '-U', 'pip'])
+    print('pip upgrade complete')
+    
+    # read python package info
+    with open(os.path.join(PATH, 'requirements.txt'), 'r') as rf:
+        
+        packages_infos = rf.readlines()
+    
+    for package in packages_infos:
+        
+        package = package.strip()
+        
+        # TODO Conflict resolution
+        print(f'start to install {package}')
+        sp.run([PYTHON, '-m', 'pip', 'install', '--user', package])
+        print(f'{package} installation complete')
+        
+    # install jax
+    cuda_version = get_cuda_version()
+    
+    if cuda_version == CUDA12:
+        
+        print(f'start to install JAX, CUDA version is {CUDA12}')
+        sp.run([PYTHON, '-m', 'pip', 'install', '--user', '"jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html'])
+        print(f'JAX installation complete')
+    
+    elif cuda_version == CUDA11:
+        
+        print(f'start to install JAX, CUDA version is {CUDA11}')
+        sp.run([PYTHON, '-m', 'pip', 'install', '--user','"jax[cuda11_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html'])
+        print(f'JAX installation complete')
+        
+    else:
+        
+        raise ValueError(f'This cuda version({cuda_version}) is not supported')
+    
+    return None
 
 
 def main():
