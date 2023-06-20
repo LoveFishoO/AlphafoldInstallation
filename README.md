@@ -1,6 +1,9 @@
 # AlphafoldInstallation
-<img src="https://img.shields.io/badge/Platform-Ubuntu-brightgreen" />
-<img src=https://img.shields.io/badge/AlphaFold-v2.3.2-blue/>
+
+<p align="left">
+    <img src="https://img.shields.io/badge/Platform-Ubuntu-brightgreen" />
+    <img src=https://img.shields.io/badge/AlphaFold-v2.3.2-blue/>
+</p>
 
 ## Background
 As the hottest AI in biology, AlphaFlod2 has brought epochal influence to the biomedical field, and many researchers have begun to try to bring AlphaFold2 into their own work.
