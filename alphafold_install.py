@@ -12,6 +12,9 @@ PATH = os.path.dirname(__file__)
 CUDA12 = '12.0'
 CUDA11 = '11.0'
 
+ALPHAFOLD_GIT_PATH = 'https://github.com/deepmind/alphafold.git'
+ALPHAFOLD_VERSION = 'v2.3.2'
+
 def get_linux_bit():
     linux_bit_cmd = sp.Popen(['getconf', 'LONG_BIT'], stdout=sp.PIPE)
     linux_bit = linux_bit_cmd.stdout.read().decode().replace('\n','')
@@ -314,10 +317,19 @@ def modify_code():
         amw.write(new_code)
     
     return None
+
+def clone_alphafold():
     
+    print('start to git clone alphafold')
+    sp.run(['git', 'clone', ALPHAFOLD_GIT_PATH, '--branch', ALPHAFOLD_VERSION], cwd=PATH)
+    print('git clone finished')
+    
+    return None
+
+
 def main():
     
-    functions = [install_software, install_packages, modify_code]
+    functions = [install_software, install_packages, clone_alphafold, modify_code]
     
     for func in functions:
         
