@@ -295,10 +295,29 @@ def install_packages():
     
     return None
 
+def modify_code():
+    
+    with open(os.path.join(PATH, 'alphafold/alphafold/relax/amber_minimize.py'), 'r') as amr:
 
+        code = amr.read()
+
+    new_code = code.replace('from simtk import openmm', 'import openmm')
+    new_code = new_code.replace('from simtk import unit',
+                                'from openmm import unit')
+    new_code = new_code.replace('from simtk.openmm import app as openmm_app',
+                                'from openmm import app as openmm_app')
+    new_code = new_code.replace(
+        'from simtk.openmm.app.internal.pdbstructure import PdbStructure', 'from openmm.app.internal.pdbstructure import PdbStructure')
+
+    with open(os.path.join(PATH, 'alphafold/alphafold/relax/amber_minimize.py'), 'w') as amw:
+
+        amw.write(new_code)
+    
+    return None
+    
 def main():
     
-    functions = [install_software, install_packages]
+    functions = [install_software, install_packages, modify_code]
     
     for func in functions:
         
